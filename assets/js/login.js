@@ -31,7 +31,7 @@ $(function () {
     })
 
 //监听注册表单的提交事件
-$(`#form_reg`).on(`sunmit`,function(e){
+$(`#form_reg`).on(`submit`,function(e){
     //阻止默认行为
    e.preventDefault()
    //发起ajax的post请求
@@ -47,6 +47,23 @@ password:$(`#form_reg[name=password]`).val(),
    })
 })
 
-
-
+//监听登录表单的提交事件
+$(`#form_login`).submit(function(e){
+    e.preventDefault()
+    $.ajax({
+        method: "POST",  
+        url: "http://ajax.frontend.itheima.netl/api/login",  
+        data: $(this).serialize(),  
+        success: function (res) {  
+            if (res.status !== 0) {
+          return layer.msg('登录失败！')
+        }
+layer.msg('登录成功！')
+        // 将登录成功得到的 token 字符串，保存到 localStorage 中
+        localStorage.setItem('token', res.token)
+        // 跳转到后台主页
+        location.href = '/index.html'
+}
+})
+})
 })
