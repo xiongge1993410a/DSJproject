@@ -1,5 +1,4 @@
 $(function () {
-    // 点击“去注册账号”的链接
     $('#link_reg').on('click', function () {
         $('.login-box').hide()
         $('.reg-box').show()
@@ -31,7 +30,22 @@ $(function () {
         }
     })
 
-
+//监听注册表单的提交事件
+$(`#form_reg`).on(`sunmit`,function(e){
+    //阻止默认行为
+   e.preventDefault()
+   //发起ajax的post请求
+   var data={
+username:$(`#form_reg[name=username]`).val(),
+password:$(`#form_reg[name=password]`).val(),
+   }
+   $.post(`http://ajax.frontend.itheima.net/api/reguser`,data,function(res){
+       if(res.status!==0){
+           return layer.msg(res.message);
+       }
+      layer.msg(`注册成功!请登录`);
+   })
+})
 
 
 
